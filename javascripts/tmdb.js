@@ -28,7 +28,6 @@ const tmdbConfiguration = () => {
 const getConfig = () => {
   tmdbConfiguration().then((results) => {
     imgConfig = results;
-    console.log(imgConfig);
   }).catch((error) => {
     console.log("error in getConfig", error);
   });
