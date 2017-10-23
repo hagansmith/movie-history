@@ -75,7 +75,26 @@ const pressEnter = () => {
   });
 };
 
-module.exports = {pressEnter};
+const myLinks = () => {
+  $(".nav").click((event) => {
+    console.log(event.target.id);
+    if (event.target.id === "searchBtn") {
+      $("#search").removeClass("hidden");
+      $("#myMovies").addClass("hidden");
+      $("#authScreen").addClass("hidden");
+    }else if (event.target.id === "authBtn") {
+      $("#search").addClass("hidden");
+      $("#myMovies").addClass("hidden");
+      $("#authScreen").removeClass("hidden");
+    }else if (event.target.id === "myMoviesBtn") {
+      $("#search").addClass("hidden");
+      $("#myMovies").removeClass("hidden");
+      $("#authScreen").addClass("hidden");
+    }
+  });
+};
+
+module.exports = {pressEnter, myLinks};
 
 },{"./tmdb":5}],4:[function(require,module,exports){
 "use strict";
@@ -84,7 +103,9 @@ let events = require('./events');
 let apiKeys = require('./apiKeys');
 
 apiKeys.retrieveKeys();
+events.myLinks();
 events.pressEnter();
+console.log(Date.now());
 
 },{"./apiKeys":1,"./events":3}],5:[function(require,module,exports){
 "use strict";
@@ -117,7 +138,6 @@ const tmdbConfiguration = () => {
 const getConfig = () => {
   tmdbConfiguration().then((results) => {
     imgConfig = results;
-    console.log(imgConfig);
   }).catch((error) => {
     console.log("error in getConfig", error);
   });

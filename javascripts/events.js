@@ -12,4 +12,23 @@ const pressEnter = () => {
   });
 };
 
-module.exports = {pressEnter};
+const myLinks = () => {
+  $(".nav").click((event) => {
+    console.log(event.target.id);
+    if (event.target.id === "searchBtn") {
+      $("#search").removeClass("hidden");
+      $("#myMovies").addClass("hidden");
+      $("#authScreen").addClass("hidden");
+    }else if (event.target.id === "authBtn") {
+      $("#search").addClass("hidden");
+      $("#myMovies").addClass("hidden");
+      $("#authScreen").removeClass("hidden");
+    }else if (event.target.id === "myMoviesBtn") {
+      $("#search").addClass("hidden");
+      $("#myMovies").removeClass("hidden");
+      $("#authScreen").addClass("hidden");
+    }
+  });
+};
+
+module.exports = {pressEnter, myLinks};
