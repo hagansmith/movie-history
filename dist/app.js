@@ -2,6 +2,7 @@
 "use strict";
 
 const tmdb = require('./tmdb.js');
+const firebaseApi = require('./firebaseApi.js');
 
 const apiKeys = ( ) => {
   return new Promise ((resolve, reject) => {
@@ -16,6 +17,8 @@ const apiKeys = ( ) => {
 const retrieveKeys = () => {
   apiKeys().then((results) => {
     tmdb.setKey(results.tmdb.apiKey);
+    firebaseApi.setKey(results.firebaseKeys);
+    firebase.initializeApp(results.firebaseKeys);
   }).catch((error) => {
     console.log('error in retrieve keys', error );
   });
@@ -24,7 +27,7 @@ const retrieveKeys = () => {
 
 module.exports = {retrieveKeys};
 
-},{"./tmdb.js":5}],2:[function(require,module,exports){
+},{"./firebaseApi.js":4,"./tmdb.js":6}],2:[function(require,module,exports){
 "use strict";
 
 const domString = (movieArray, imgConfig) => {
@@ -96,7 +99,18 @@ const myLinks = () => {
 
 module.exports = {pressEnter, myLinks};
 
-},{"./tmdb":5}],4:[function(require,module,exports){
+},{"./tmdb":6}],4:[function(require,module,exports){
+"use strict";
+
+let firebaseKey = "";
+
+const setKey = (key) => {
+  firebaseKey = key;
+};
+
+module.exports = {setKey};
+
+},{}],5:[function(require,module,exports){
 "use strict";
 
 let events = require('./events');
@@ -107,7 +121,7 @@ events.myLinks();
 events.pressEnter();
 console.log(Date.now());
 
-},{"./apiKeys":1,"./events":3}],5:[function(require,module,exports){
+},{"./apiKeys":1,"./events":3}],6:[function(require,module,exports){
 "use strict";
 
 let tmdbKey;
@@ -166,4 +180,4 @@ const showResults = (movieArray) => {
 
 module.exports = {setKey, searchMovies};
 
-},{"./dom":2}]},{},[4]);
+},{"./dom":2}]},{},[5]);
