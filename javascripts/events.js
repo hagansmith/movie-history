@@ -2,6 +2,7 @@
 
 const tmdb = require('./tmdb');
 const firebaseApi = require('./firebaseApi');
+const dom = require('./dom.js');
 
 const pressEnter = () => {
   $(document).keypress((e) => {
@@ -15,7 +16,6 @@ const pressEnter = () => {
 
 const myLinks = () => {
   $(".nav").click((event) => {
-    console.log(event.target.id);
     if (event.target.id === "searchBtn") {
       $("#search").removeClass("hidden");
       $("#myMovies").addClass("hidden");
@@ -28,6 +28,12 @@ const myLinks = () => {
       $("#search").addClass("hidden");
       $("#myMovies").removeClass("hidden");
       $("#authScreen").addClass("hidden");
+      firebaseApi.getMovieList().then((results) => {
+        dom.clearDom('moviesMine');
+        dom.domString(results, tmdb.getImgConfig() ,'moviesMine');
+      }).catch((err) => {
+        console.log("error in get movies", err);
+      });
     }
   });
 };
