@@ -3,3 +3,12 @@
 body {
   background-color: $red;
 }
+
+#googleButton {
+  background-color: $red;
+  border: none;
+}
+
+#googleButton img {
+  height: 40px;
+}

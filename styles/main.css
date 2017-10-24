@@ -1,2 +1,9 @@
 body {
-  background-color: red; }
+  background-color: #FFCC65; }
+
+#googleButton {
+  background-color: #FFCC65;
+  border: none; }
+
+#googleButton img {
+  height: 40px; }
