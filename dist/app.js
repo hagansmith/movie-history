@@ -130,7 +130,11 @@ const wishListEvents = () => {
       "uid":""
     };
     console.log("new movie", newMovie);
-    //firebaseApi.saveMoive().then().catch();
+    firebaseApi.saveMoive(newMovie).then((results) => {
+      $(mom).remove();
+    }).catch((err) => {
+      console.log("error in save movie", err);
+    });
 
   });
 };
@@ -178,7 +182,23 @@ const getMovieList = () => {
   });
 };
 
-module.exports = {setKey, authenticateGoogle, getMovieList};
+const saveMoive = (movie) => {
+  movie.uid = userUid;
+  return new Promise((resolve, reject) => {
+      $.ajax({
+        method: "POST",
+        url: `${firebaseKey.databaseURL}/movies.json`,
+        data: JSON.stringify(movie)
+      }).then((result) => {
+        resolve(result);
+      }).catch((error) => {
+        reject(error);
+      });
+  });
+
+};
+
+module.exports = {setKey, authenticateGoogle, getMovieList, saveMoive};
 
 },{}],5:[function(require,module,exports){
 "use strict";
