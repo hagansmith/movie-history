@@ -29,13 +29,29 @@ const getMovieList = () => {
       Object.keys(fbMovies).forEach((key) => {
         fbMovies[key].id = key;
         movies.push(fbMovies[key]);
+        });
+      }
+        resolve(movies);
+      }).catch((err) => {
+        reject(err);
       });
-    }
-      resolve(movies);
-    }).catch((err) => {
-      reject(err);
-    });
   });
 };
 
-module.exports = {setKey, authenticateGoogle, getMovieList};
+const saveMoive = (movie) => {
+  movie.uid = userUid;
+  return new Promise((resolve, reject) => {
+      $.ajax({
+        method: "POST",
+        url: `${firebaseKey.databaseURL}/movies.json`,
+        data: JSON.stringify(movie)
+      }).then((result) => {
+        resolve(result);
+      }).catch((error) => {
+        reject(error);
+      });
+  });
+
+};
+
+module.exports = {setKey, authenticateGoogle, getMovieList, saveMoive};

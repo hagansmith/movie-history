@@ -55,6 +55,4 @@ const getImgConfig = () => {
   return imgConfig;
 };
 
-
-
 module.exports = {setKey, searchMovies, getImgConfig};
