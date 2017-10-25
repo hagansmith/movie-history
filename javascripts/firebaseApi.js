@@ -29,12 +29,12 @@ const getMovieList = () => {
       Object.keys(fbMovies).forEach((key) => {
         fbMovies[key].id = key;
         movies.push(fbMovies[key]);
+        });
+      }
+        resolve(movies);
+      }).catch((err) => {
+        reject(err);
       });
-    }
-      resolve(movies);
-    }).catch((err) => {
-      reject(err);
-    });
   });
 };
 

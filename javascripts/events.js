@@ -40,12 +40,30 @@ const myLinks = () => {
 
 const googleAuth = () => {
   $("#googleButton").click((e) => {
-    firebaseApi.authenticateGoogle().then((result) => {
-      console.log("result", result);
+      firebaseApi.authenticateGoogle().then((result) => {
     }).catch((err) => {
       console.log("error in authenticateGoogle", err);
     });
   });
 };
 
-module.exports = {pressEnter, myLinks, googleAuth};
+const wishListEvents = () => {
+  $('body').on('click', '.wishlist', (e) => {
+    console.log("wishListEvents", e);
+    let mom = e.target.closest('.movie');
+
+    let newMovie = {
+      "title":$(mom).find('.title').html(),
+      "overview":$(mom).find('.overview').html(),
+      "poster_path":$(mom).find('.poster_path').attr('src').split('/').pop(),
+      "rating": 0,
+      "isWatched": false,
+      "uid":""
+    };
+    console.log("new movie", newMovie);
+    //firebaseApi.saveMoive().then().catch();
+
+  });
+};
+
+module.exports = {pressEnter, myLinks, googleAuth, wishListEvents};
