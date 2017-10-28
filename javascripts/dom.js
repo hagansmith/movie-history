@@ -1,5 +1,7 @@
 "use strict";
 
+let firebaseApi = require('./firebaseApi');
+
 const domString = (movieArray, imgConfig, divName, search) => {
   let domString = "";
   for (let i = 0; i < movieArray.length; i++){
@@ -24,7 +26,8 @@ const domString = (movieArray, imgConfig, divName, search) => {
       domString +=        `<a class="btn btn-default wishlist" role="button">Wishlist</a>`;
       domString +=       `</p>`;
     } else {
-      domString +=      `<p>Rating: ${movieArray[i].rating}</p>`;
+      domString +=      `<label for="stars_${movieArray[i].id}" class="control-label">Rate This</label>`;
+      domString +=      `<input id="stars_${movieArray[i].id}" name="stars_${movieArray[i].id}" class="stars rating-loading" value="${movieArray[i].rating}">`;
     }
 
     domString +=      `</div>`;
@@ -34,11 +37,45 @@ const domString = (movieArray, imgConfig, divName, search) => {
     domString += `</div>`;
     }
   }
-  printToDom(domString, divName);
+  if (!search) {
+    printToDom(domString, divName, movieArray);
+  }else {
+    printToDom(domString, divName);
+  }
 };
 
-const printToDom = (domString, divName) => {
+const initializeStars = (starArray) => {
+  starArray.forEach((star) => {
+    $("#stars_" + star.id).rating().on("rating.clear", function(event) {
+        console.log("Your rating is reset");
+    }).on("rating.change", function(e, value, caption) {
+      let mom = e.target.closest('.movie');
+      let movieId = $(e.target.closest('.thumbnail')).find('.delete').data('firebase-id');
+      let modifiedMovie = {
+        "title":$(mom).find('.title').html(),
+        "overview":$(mom).find('.overview').html(),
+        "poster_path":$(mom).find('.poster_path').attr('src').split('/').pop(),
+        "rating": value,
+        "isWatched": false,
+        "uid":""
+      };
+      firebaseApi.editMovie(modifiedMovie, movieId).then((results)=>{
+
+      }).catch((err)=> {
+        console.log("edited movie erros", err);
+      });
+
+
+    });
+  });
+};
+
+const printToDom = (domString, divName, starArray) => {
   $(`#${divName}`).append(domString);
+
+  if (starArray) {
+    initializeStars(starArray);
+  }
 };
 
 const clearDom = (divName) => {
